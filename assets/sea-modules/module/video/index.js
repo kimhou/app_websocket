@@ -19,7 +19,8 @@ define('module/video/index', function(require, exports, mosule){
             var self = this,
                 doms = self.doms;
             doms.nameInput.focus();
-            $('#nameForm').on('submit', function(){
+            $('#nameForm').on('submit', function(e){
+                e.preventDefault();
                 self.userName = $.trim(doms.nameInput.val());
                 if(self.userName.length){
                     $('#startContent').hide();
@@ -52,6 +53,10 @@ define('module/video/index', function(require, exports, mosule){
                 doms = self.doms;
             window.URL = window.URL || window.webkitURL;
             navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia;
+            if(!navigator.getUserMedia){
+                alert('你的浏览器不支持getUserMedia，不过还是可以看到在线的其他人');
+                return false;
+            }
             navigator.getUserMedia({video: true, audio: true}, function(stream){
                 doms.myVideoOutput.get(0).src = window.URL.createObjectURL(stream);
             }, function(err){
@@ -63,7 +68,7 @@ define('module/video/index', function(require, exports, mosule){
         createSocket: function(){
             var self = this,
                 doms = self.doms;
-            self.socket = io.connect('http://localhost:3003');
+            self.socket = io.connect('http://'+location.host+':3003');
             self.socket.on('connect', function(){
                 self.drawImg();
             });
@@ -86,7 +91,7 @@ define('module/video/index', function(require, exports, mosule){
             self.socket.emit('videoData', {name: self.userName, data: stringData});
             setTimeout(function(){
                 self.drawImg();
-            }, Math.floor(1000/12));
+            }, Math.floor(1000/18));
         }
     };
 });

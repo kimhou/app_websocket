@@ -44,7 +44,7 @@ define('module/chat/index', function(require, exports, mosule){
         createChat: function(){
             var self = this,
                 doms = self.doms;
-            self.socket = io.connect('http://localhost:3002');
+            self.socket = io.connect('http://'+location.host+':3002');
             self.socket.on('connect', function(){
                 doms.resultUl.append('<li class="alert alert-warn">socket connected</li>');    
             });

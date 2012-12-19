@@ -4,7 +4,9 @@ block content
   div.container
       div.hero-unit
           h2 Chat Room
-              small &nbsp;this is a webcket demo:
+              small &nbsp;this is a webcket demo:(
+                a(href="https://github.com/kimhou/app_websocket") https://github.com/kimhou/app_websocket
+                )
           div.alert.alert-info
             form#socketForm.form-inline
               div#startContent
@@ -16,12 +18,15 @@ block content
                 &nbsp;
                 button#submitBtn.btn(type="submit") Send
           ul#socketMsg
-  script(src='http://localhost:3002/socket.io/socket.io.js')
   script
 
     //load jquery and bootstrap
-    seajs.use('module/chat/index', function(chat){
-        chat.init();
-        //seajs.use('bootstrap');
+    seajs.use('http://'+location.host+':3002/socket.io/socket.io.js', function(){
+
+      seajs.use('module/chat/index', function(chat){
+          chat.init();
+          //seajs.use('bootstrap');
+      });
     });
+    
     
